@@ -1,3 +1,4 @@
+import 'package:bloom/ui/screens/signin_page.dart';
 import 'package:flutter/material.dart';
 import 'package:bloom/constants.dart';
 import 'package:bloom/ui/screens/widgets/profile_widget.dart';
@@ -35,8 +36,9 @@ class ProfilePage extends StatelessWidget {
               height: 10,
             ),
             SizedBox(
-              width: size.width * .3,
+              width: size.width * .5,
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     'John Doe',
@@ -60,39 +62,38 @@ class ProfilePage extends StatelessWidget {
             const SizedBox(
               height: 30,
             ),
-            SizedBox(
-              height: size.height * .7,
-              width: size.width,
-              child: const Column(
+            Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  ProfileWidget(
+                  const ProfileWidget(
                     icon: Icons.person,
                     title: 'My Profile',
                   ),
-                  ProfileWidget(
+                  const ProfileWidget(
                     icon: Icons.settings,
                     title: 'Settings',
                   ),
-                  ProfileWidget(
+                  const ProfileWidget(
                     icon: Icons.notifications,
                     title: 'Notifications',
                   ),
-                  ProfileWidget(
+                  const ProfileWidget(
                     icon: Icons.chat,
                     title: 'FAQs',
                   ),
-                  ProfileWidget(
+                  const ProfileWidget(
                     icon: Icons.share,
                     title: 'Share',
                   ),
-                  ProfileWidget(
-                    icon: Icons.logout,
-                    title: 'Log Out',
+                  InkWell(
+                    onTap: () {Navigator.pushReplacement(context, MaterialPageRoute( builder: (context) => const SignIn()));},
+                    child: const ProfileWidget(
+                      icon: Icons.logout,
+                      title: 'Log Out',
+                    ),
                   ),
                 ],
               ),
-            ),
           ],
         ),
       ),

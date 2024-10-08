@@ -26,7 +26,7 @@ class _SplashState extends State<Splash> {
           color: Colors.black,
           image: DecorationImage(
             image: AssetImage("assets/images/splash.jpg"),
-            opacity: 0.5,
+            opacity: 0.8,
             fit: BoxFit.cover,
           ),
         ),
