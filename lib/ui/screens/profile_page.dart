@@ -1,3 +1,4 @@
+import 'package:bloom/ui/screens/setting_page.dart';
 import 'package:flutter/material.dart';
 import 'package:bloom/constants.dart';
 import 'package:bloom/ui/screens/widgets/profile_widget.dart';
@@ -63,31 +64,40 @@ class ProfilePage extends StatelessWidget {
             SizedBox(
               height: size.height * .7,
               width: size.width,
-              child: const Column(
+              child:  Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   ProfileWidget(
+                    fun:(){ },
                     icon: Icons.person,
                     title: 'My Profile',
                   ),
                   ProfileWidget(
+                    fun: (){
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => SettingPage()));
+                    },
                     icon: Icons.settings,
                     title: 'Settings',
                   ),
                   ProfileWidget(
+                    fun: (){},
                     icon: Icons.notifications,
                     title: 'Notifications',
                   ),
                   ProfileWidget(
+                    fun: (){},
                     icon: Icons.chat,
                     title: 'FAQs',
                   ),
                   ProfileWidget(
+                    fun: (){},
                     icon: Icons.share,
                     title: 'Share',
                   ),
                   ProfileWidget(
-                    icon: Icons.logout,
+                    fun: (){},
+                    icon:Icons.logout,
                     title: 'Log Out',
                   ),
                 ],

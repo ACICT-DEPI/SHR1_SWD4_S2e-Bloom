@@ -5,10 +5,12 @@ import 'package:bloom/constants.dart';
 class ProfileWidget extends StatelessWidget {
   final IconData icon;
   final String title;
+  final VoidCallback fun;
   const ProfileWidget({
     Key? key,
     required this.icon,
     required this.title,
+    required this.fun,
   }) : super(key: key);
 
   @override
@@ -38,11 +40,9 @@ class ProfileWidget extends StatelessWidget {
               ),
             ],
           ),
-          Icon(
-            Icons.arrow_forward_ios,
-            color: Constants.blackColor.withOpacity(.4),
-            size: 16,
-          )
+          IconButton(onPressed: fun,
+            icon: Icon(Icons.arrow_forward_ios),
+            color: Constants.blackColor.withOpacity(.4),),
         ],
       ),
     );
