@@ -1,3 +1,4 @@
+import 'package:bloom/ui/screens/widgets/welcome.dart';
 import 'package:flutter/material.dart';
 import '../constants.dart';
 import 'screens/signin_page.dart';
@@ -26,7 +27,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             child: InkWell(
               onTap: () {
                 Navigator.pushReplacement(
-                    context, MaterialPageRoute(builder: (_) => const SignIn()));
+                    context, MaterialPageRoute(builder: (_) => const WelcomScreen()));
               }, //to login screen. We will update later
               child: const Text(
                 'Skip',
@@ -79,6 +80,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             bottom: 60,
             right: 30,
             child: Container(
+              padding: const EdgeInsets.all(4),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Constants.primaryColor,
+              ),
               child: IconButton(
                   onPressed: () {
                     setState(() {
@@ -91,7 +97,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         }
                       } else {
                         Navigator.pushReplacement(context,
-                            MaterialPageRoute(builder: (_) => const SignIn()));
+                            MaterialPageRoute(builder: (_) => const WelcomScreen()));
                       }
                     });
                   },
@@ -100,11 +106,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     size: 24,
                     color: Colors.white,
                   )),
-              padding: const EdgeInsets.all(4),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Constants.primaryColor,
-              ),
             ),
           ),
         ],
@@ -150,11 +151,11 @@ class CreatePage extends StatelessWidget {
   final String description;
 
   const CreatePage({
-    Key? key,
+    super.key,
     required this.image,
     required this.title,
     required this.description,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
