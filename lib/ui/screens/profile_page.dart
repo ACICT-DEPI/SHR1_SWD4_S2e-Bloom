@@ -1,10 +1,10 @@
-import 'package:bloom/ui/screens/signin_page.dart';
+import 'package:bloom/ui/signin_page.dart';
 import 'package:flutter/material.dart';
 import 'package:bloom/constants.dart';
-import 'package:bloom/ui/screens/widgets/profile_widget.dart';
+import 'package:bloom/ui/widgets/profile_widget.dart';
 
 class ProfilePage extends StatelessWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+  const ProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,16 +20,16 @@ class ProfilePage extends StatelessWidget {
           children: [
             Container(
               width: 150,
-              child: const CircleAvatar(
-                radius: 60,
-                backgroundImage: ExactAssetImage('assets/images/profile.jpg'),
-              ),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(
                   color: Constants.primaryColor.withOpacity(.5),
                   width: 5.0,
                 ),
+              ),
+              child: const CircleAvatar(
+                radius: 60,
+                backgroundImage: ExactAssetImage('assets/images/profile.jpg'),
               ),
             ),
             const SizedBox(

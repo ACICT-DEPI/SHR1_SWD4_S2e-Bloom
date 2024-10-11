@@ -16,17 +16,17 @@ class _SplashState extends State<Splash> {
     super.initState();
     Timer(const Duration(seconds: 3), () =>
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => OnboardingScreen())));
+            MaterialPageRoute(builder: (context) => const OnboardingScreen())));
   }
     @override
   Widget build(BuildContext context) {
     return  Material(
       child: Container(
         decoration: const BoxDecoration(
-          color: Colors.black,
+          // color: Colors.black,
           image: DecorationImage(
             image: AssetImage("assets/images/splash.jpg"),
-            opacity: 0.8,
+            // opacity: 0.8,
             fit: BoxFit.cover,
           ),
         ),

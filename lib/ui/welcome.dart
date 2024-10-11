@@ -1,10 +1,10 @@
-import 'package:bloom/ui/screens/signin_page.dart';
-import 'package:bloom/ui/screens/signup_page.dart';
-import 'package:bloom/ui/screens/widgets/custom_button.dart';
+import 'package:bloom/constants.dart';
+import 'package:bloom/ui/signin_page.dart';
+import 'package:bloom/ui/signup_page.dart';
+import 'package:bloom/ui/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
-import '../../../constants.dart';
 
 class WelcomScreen extends StatelessWidget {
   const WelcomScreen({super.key});

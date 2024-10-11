@@ -1,10 +1,9 @@
-import 'package:bloom/ui/screens/widgets/welcome.dart';
+import 'package:bloom/ui/welcome.dart';
 import 'package:flutter/material.dart';
 import '../constants.dart';
-import 'screens/signin_page.dart';
 
 class OnboardingScreen extends StatefulWidget {
-  const OnboardingScreen({Key? key}) : super(key: key);
+  const OnboardingScreen({super.key});
 
   @override
   State<OnboardingScreen> createState() => _OnboardingScreenState();

@@ -1,15 +1,15 @@
-import 'package:bloom/ui/screens/widgets/custom_button.dart';
+import 'package:bloom/ui/screens/root_page.dart';
+import 'package:bloom/ui/widgets/custom_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:bloom/ui/screens/forgot_password.dart';
-import 'package:bloom/ui/screens/signup_page.dart';
+import 'package:bloom/ui/forgot_password.dart';
+import 'package:bloom/ui/signup_page.dart';
 import 'package:page_transition/page_transition.dart';
 
-import '../../constants.dart';
-import '../root_page.dart';
+import '../constants.dart';
 
 class SignIn extends StatefulWidget {
-  const SignIn({Key? key}) : super(key: key);
+  const SignIn({super.key});
 
   @override
   State<SignIn> createState() => _SignInState();
@@ -136,7 +136,7 @@ class _SignInState extends State<SignIn> {
                 const SizedBox(height: 10),
                 GestureDetector(
                   onTap: () {
-                    Navigator.pushReplacement(
+                    Navigator.push(
                         context,
                         PageTransition(
                             child: const ForgotPassword(),

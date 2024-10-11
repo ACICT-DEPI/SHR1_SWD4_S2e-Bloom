@@ -2,13 +2,13 @@
 import 'package:flutter/material.dart';
 import 'package:bloom/constants.dart';
 import 'package:bloom/models/plants.dart';
-import 'package:bloom/ui/screens/detail_page.dart';
+import 'package:bloom/ui/screens/marketScreens/detail_page.dart';
 import 'package:page_transition/page_transition.dart';
 
 class PlantWidget extends StatelessWidget {
   const PlantWidget({
-    Key? key, required this.index, required this.plantList,
-  }) : super(key: key);
+    super.key, required this.index, required this.plantList,
+  });
 
   final int index;
   final List<Plant> plantList;

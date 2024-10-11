@@ -7,7 +7,7 @@ void main()  async {
 
   WidgetsFlutterBinding.ensureInitialized();
   final prefs = await SharedPreferences.getInstance();
-  final showHome = prefs.getBool('showHome') ?? false;
+//final showHome = prefs.getBool('showHome') ?? false;
   await Firebase.initializeApp();
   runApp(const MyApp(/*showHome : showHome*/));
 }
@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Bloom',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Color(0xff6a9c89)),
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff6a9c89)),
         useMaterial3: true,
       ),
       home: const Splash(),

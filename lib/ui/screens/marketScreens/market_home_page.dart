@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:bloom/constants.dart';
 import 'package:bloom/models/plants.dart';
-import 'package:bloom/ui/screens/detail_page.dart';
-import 'package:bloom/ui/screens/widgets/plant_widget.dart';
+import 'package:bloom/ui/screens/marketScreens/detail_page.dart';
+import 'package:bloom/ui/widgets/plant_widget.dart';
 import 'package:page_transition/page_transition.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class MarketHomePage extends StatefulWidget {
+  const MarketHomePage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<MarketHomePage> createState() => _MarketHomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _MarketHomePageState extends State<MarketHomePage> {
   @override
   Widget build(BuildContext context) {
     int selectedIndex = 0;
@@ -49,6 +49,10 @@ class _HomePageState extends State<HomePage> {
                     horizontal: 16.0,
                   ),
                   width: size.width * .9,
+                  decoration: BoxDecoration(
+                    color: Constants.primaryColor.withOpacity(.1),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -71,10 +75,6 @@ class _HomePageState extends State<HomePage> {
                         color: Colors.black54.withOpacity(.6),
                       ),
                     ],
-                  ),
-                  decoration: BoxDecoration(
-                    color: Constants.primaryColor.withOpacity(.1),
-                    borderRadius: BorderRadius.circular(20),
                   ),
                 )
               ],
@@ -131,6 +131,10 @@ class _HomePageState extends State<HomePage> {
                     child: Container(
                       width: 200,
                       margin: const EdgeInsets.symmetric(horizontal: 10),
+                      decoration: BoxDecoration(
+                        color: Constants.primaryColor.withOpacity(.8),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
                       child: Stack(
                         children: [
                           Positioned(
@@ -139,6 +143,10 @@ class _HomePageState extends State<HomePage> {
                             child: Container(
                               height: 50,
                               width: 50,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(50),
+                              ),
                               child: IconButton(
                                 onPressed: () {
                                   setState(() {
@@ -154,10 +162,6 @@ class _HomePageState extends State<HomePage> {
                                   color: Constants.primaryColor,
                                 ),
                                 iconSize: 30,
-                              ),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(50),
                               ),
                             ),
                           ),
@@ -211,10 +215,6 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ),
                         ],
-                      ),
-                      decoration: BoxDecoration(
-                        color: Constants.primaryColor.withOpacity(.8),
-                        borderRadius: BorderRadius.circular(20),
                       ),
                     ),
                   );

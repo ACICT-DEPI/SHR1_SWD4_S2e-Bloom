@@ -1,52 +1,49 @@
 
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
-import 'package:bloom/ui/scan_page.dart';
-import 'package:bloom/ui/screens/cart_page.dart';
-import 'package:bloom/ui/screens/favorite_page.dart';
-import 'package:bloom/ui/screens/home_page.dart';
+import 'package:bloom/constants.dart';
+import 'package:bloom/ui/screens/market_root_page.dart';
+import 'package:bloom/ui/screens/scan_page.dart';
+import 'package:bloom/ui/screens/community.dart';
 import 'package:bloom/ui/screens/profile_page.dart';
+import 'package:bloom/ui/screens/tips.dart';
 import 'package:flutter/material.dart';
-import '../constants.dart';
 import 'package:page_transition/page_transition.dart';
 
-import '../models/plants.dart';
 
 class RootPage extends StatefulWidget {
-  const RootPage({Key? key}) : super(key: key);
+  const RootPage({super.key});
 
   @override
   State<RootPage> createState() => _RootPageState();
 }
 
 class _RootPageState extends State<RootPage> {
-  List<Plant> favorites = [];
-  List<Plant> myCart = [];
 
   int _bottomNavIndex = 0;
 
   //List of the pages
   List<Widget> _widgetOptions(){
     return [
-      const HomePage(),
-      FavoritePage(favoritedPlants: favorites,),
-      CartPage(addedToCartPlants: myCart,),
+      const TipsAndTricksScreen(),
+      const CommunityPage(),
+      const MarketRootPage(),
       const ProfilePage(),
     ];
   }
 
   //List of the pages icons
   List<IconData> iconList = [
-    Icons.home,
-    Icons.favorite,
-    Icons.shopping_cart,
+    Icons.tips_and_updates_rounded,
+    Icons.chat_rounded,
+    Icons.store_mall_directory_rounded,
     Icons.person,
   ];
 
   //List of the pages titles
   List<String> titleList = [
-    'Home',
-    'Favorite',
-    'Cart',
+    'Tips & Tricks',
+    'Community',
+    'Market',
     'Profile',
   ];
 
@@ -76,8 +73,8 @@ class _RootPageState extends State<RootPage> {
         onPressed: (){
           Navigator.push(context, PageTransition(child: const ScanPage(), type: PageTransitionType.bottomToTop));
         },
-        child: Image.asset('assets/images/code-scan-two.png', height: 30.0,),
         backgroundColor: Constants.primaryColor,
+        child: Image.asset('assets/images/code-scan-two.png', height: 30.0,),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: AnimatedBottomNavigationBar(
@@ -91,11 +88,11 @@ class _RootPageState extends State<RootPage> {
         onTap: (index){
           setState(() {
             _bottomNavIndex = index;
-            final List<Plant> favoritedPlants = Plant.getFavoritedPlants();
-            final List<Plant> addedToCartPlants = Plant.addedToCartPlants();
+            // final List<Plant> favoritedPlants = Plant.getFavoritedPlants();
+            // final List<Plant> addedToCartPlants = Plant.addedToCartPlants();
 
-            favorites = favoritedPlants;
-            myCart = addedToCartPlants.toSet().toList();
+            // favorites = favoritedPlants;
+            // myCart = addedToCartPlants.toSet().toList();
           });
         }
       ),

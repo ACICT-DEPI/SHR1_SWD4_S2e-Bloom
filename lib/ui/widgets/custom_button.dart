@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Button extends StatelessWidget {
-   Button({super.key, this.bgColor, this.containerWidth, this.itext});
+   const Button({super.key, this.bgColor, this.containerWidth, this.itext});
 
   final   Color? bgColor;
   final  double? containerWidth ;
@@ -20,7 +20,7 @@ class Button extends StatelessWidget {
       ),
       child: Center(
         child: Text(itext!,
-        style: TextStyle(
+        style: const TextStyle(
           color: Colors.white,
           fontSize: 22,
         ),),
