@@ -13,9 +13,10 @@ class MarketHomePage extends StatefulWidget {
 }
 
 class _MarketHomePageState extends State<MarketHomePage> {
+  int selectedIndex = 0;
   @override
+
   Widget build(BuildContext context) {
-    int selectedIndex = 0;
     Size size = MediaQuery.of(context).size;
 
     List<Plant> _plantList = Plant.plantList;
@@ -39,47 +40,47 @@ class _MarketHomePageState extends State<MarketHomePage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            padding: const EdgeInsets.only(top: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16.0,
-                  ),
-                  width: size.width * .9,
-                  decoration: BoxDecoration(
-                    color: Constants.primaryColor.withOpacity(.1),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.search,
-                        color: Colors.black54.withOpacity(.6),
-                      ),
-                      const Expanded(
-                          child: TextField(
-                        showCursor: false,
-                        decoration: InputDecoration(
-                          hintText: 'Search Plant',
-                          border: InputBorder.none,
-                          focusedBorder: InputBorder.none,
-                        ),
-                      )),
-                      Icon(
-                        Icons.mic,
-                        color: Colors.black54.withOpacity(.6),
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
-          ),
+          // Container(
+          //   padding: const EdgeInsets.only(top: 20),
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.spaceAround,
+          //     children: [
+          //       Container(
+          //         padding: const EdgeInsets.symmetric(
+          //           horizontal: 16.0,
+          //         ),
+          //         width: size.width * .9,
+          //         decoration: BoxDecoration(
+          //           color: Constants.primaryColor.withOpacity(.1),
+          //           borderRadius: BorderRadius.circular(20),
+          //         ),
+          //         child: Row(
+          //           crossAxisAlignment: CrossAxisAlignment.center,
+          //           mainAxisAlignment: MainAxisAlignment.center,
+          //           children: [
+          //             Icon(
+          //               Icons.search,
+          //               color: Colors.black54.withOpacity(.6),
+          //             ),
+          //             const Expanded(
+          //                 child: TextField(
+          //               showCursor: false,
+          //               decoration: InputDecoration(
+          //                 hintText: 'Search Plant',
+          //                 border: InputBorder.none,
+          //                 focusedBorder: InputBorder.none,
+          //               ),
+          //             )),
+          //             Icon(
+          //               Icons.mic,
+          //               color: Colors.black54.withOpacity(.6),
+          //             ),
+          //           ],
+          //         ),
+          //       )
+          //     ],
+          //   ),
+          // ),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12),
             height: 50.0,

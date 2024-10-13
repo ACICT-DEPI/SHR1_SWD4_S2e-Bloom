@@ -15,8 +15,8 @@ class _SplashState extends State<Splash> {
   void initState() {
     super.initState();
     Timer(const Duration(seconds: 3), () =>
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const OnboardingScreen())));
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => const  OnboardingScreen() )));
   }
     @override
   Widget build(BuildContext context) {

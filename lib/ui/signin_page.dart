@@ -1,10 +1,14 @@
 import 'package:bloom/ui/screens/root_page.dart';
 import 'package:bloom/ui/widgets/custom_button.dart';
+import 'package:bloom/ui/widgets/custom_textform.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:bloom/ui/forgot_password.dart';
 import 'package:bloom/ui/signup_page.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import '../constants.dart';
 
@@ -20,6 +24,70 @@ class _SignInState extends State<SignIn> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   late TextEditingController emailController;
   late TextEditingController passwordController;
+
+    Future addUser(
+      {required String name,
+      required String phone,
+      required String email,
+      required String age,
+      required String gender,
+      required String userid,
+      required String image,
+      }) async {
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+    await firestore.collection('users').doc(userid).set({
+      'name': name,
+      'phone': phone,
+      'email': email,
+      'age': age,
+      'gender': gender,
+      'image' : image,
+    });
+  }
+
+  Future signInWithGoogle() async {
+    // Trigger the authentication flow
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+    if (googleUser == null) {
+      return;
+    }
+
+    // Obtain the auth details from the request
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser.authentication;
+
+    // Create a new credential
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+
+    // Once signed in, return the UserCredential
+    await FirebaseAuth.instance.signInWithCredential(credential);
+        addUser(
+                          name: "",
+                          phone: "",
+                          email: "",
+                          age: "",
+                          gender: "", 
+                          userid: FirebaseAuth.instance.currentUser!.uid,
+                          image: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
+                        );
+       Fluttertoast.showToast(
+                            msg: "Signed in successfully",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.TOP,
+                            timeInSecForIosWeb: 5,
+                            backgroundColor: Colors.green[200],
+                            textColor: Colors.grey,
+                            fontSize: 16.0);
+    Navigator.pushReplacement(
+        context,
+        PageTransition(
+            child: const RootPage(), type: PageTransitionType.bottomToTop));
+  }
 
   @override
   void initState() {
@@ -63,9 +131,11 @@ class _SignInState extends State<SignIn> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                TextFormField(
+                CustomTextFormField(
                   controller: emailController,
                   keyboardType: TextInputType.emailAddress,
+                  labelText: 'Email Address',
+                  prefixIcon: Icon(Icons.alternate_email),
                   validator: (value) {
                     if (value!.isEmpty) {
                       return "Email address must not be empty";
@@ -74,17 +144,14 @@ class _SignInState extends State<SignIn> {
                     }
                     return null;
                   },
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Email Address',
-                    prefixIcon: Icon(Icons.alternate_email),
-                  ),
                 ),
                 const SizedBox(height: 10),
-                TextFormField(
+                CustomTextFormField(
                   controller: passwordController,
-                  obscureText: passToggle,
-                  obscuringCharacter: "*",
+                  isPasswordField: true,
+                  keyboardType: TextInputType.emailAddress,
+                  labelText: 'Password',
+                  prefixIcon: Icon(Icons.alternate_email),
                   validator: (value) {
                     if (value!.isEmpty) {
                       return "Password must not be empty";
@@ -93,21 +160,6 @@ class _SignInState extends State<SignIn> {
                     }
                     return null;
                   },
-                  decoration: InputDecoration(
-                    border: const OutlineInputBorder(),
-                    labelText: 'Password',
-                    prefixIcon: const Icon(Icons.lock_open),
-                    suffixIcon: InkWell(
-                      onTap: () {
-                        setState(() {
-                          passToggle = !passToggle;
-                        });
-                      },
-                      child: Icon(passToggle
-                          ? Icons.visibility
-                          : Icons.visibility_off),
-                    ),
-                  ),
                 ),
                 const SizedBox(height: 10),
                 GestureDetector(
@@ -117,12 +169,29 @@ class _SignInState extends State<SignIn> {
                         await FirebaseAuth.instance.signInWithEmailAndPassword(
                             email: emailController.text,
                             password: passwordController.text);
+
+                        Fluttertoast.showToast(
+                            msg: "Signed in successfully",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.TOP,
+                            timeInSecForIosWeb: 5,
+                            backgroundColor: Colors.green[200],
+                            textColor: Colors.grey,
+                            fontSize: 16.0);
                         Navigator.pushReplacement(
                             context,
                             PageTransition(
                                 child: const RootPage(),
                                 type: PageTransitionType.bottomToTop));
                       } catch (error) {
+                    Fluttertoast.showToast(
+                            msg: error.toString(),
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.TOP,
+                            timeInSecForIosWeb: 5,
+                            backgroundColor: Colors.red[200],
+                            textColor: Colors.grey,
+                            fontSize: 16.0);
                         print(error.toString());
                       }
                     }
@@ -171,29 +240,34 @@ class _SignInState extends State<SignIn> {
                   ],
                 ),
                 const SizedBox(height: 20),
-                Container(
-                  height: 60,
-                  width: size.width,
-                  decoration: BoxDecoration(
-                    color: Colors.grey[300],
-                    shape: BoxShape.rectangle,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      SizedBox(
-                        height: 30,
-                        child: Image.asset('assets/images/google.png'),
-                      ),
-                      const Text(
-                        'Sign In with Google',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 22,
+                InkWell(
+                  onTap: () {
+                    signInWithGoogle();
+                  },
+                  child: Container(
+                    height: 60,
+                    width: size.width,
+                    decoration: BoxDecoration(
+                      color: Colors.grey[300],
+                      shape: BoxShape.rectangle,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        SizedBox(
+                          height: 30,
+                          child: Image.asset('assets/images/google.png'),
                         ),
-                      ),
-                    ],
+                        const Text(
+                          'Sign In with Google',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 22,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 const SizedBox(height: 20),

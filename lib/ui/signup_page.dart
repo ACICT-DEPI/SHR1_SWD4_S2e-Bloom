@@ -1,7 +1,11 @@
 import 'package:bloom/constants.dart';
+import 'package:bloom/ui/screens/root_page.dart';
 import 'package:bloom/ui/signin_page.dart';
 import 'package:bloom/ui/widgets/custom_button.dart';
+import 'package:bloom/ui/widgets/custom_textform.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -14,41 +18,83 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
-
   bool passToggle = true;
-   bool confirmpassToggle = true;
-   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  bool confirmpassToggle = true;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  late TextEditingController nameController ;
-  late TextEditingController phoneController ;
-  late TextEditingController emailController ;
-  late TextEditingController passwordController ;
-  late TextEditingController confirmPasswordController ;
-  late TextEditingController ageController ;
-  late TextEditingController genderController ;
+  late TextEditingController nameController;
+  late TextEditingController phoneController;
+  late TextEditingController emailController;
+  late TextEditingController passwordController;
+  late TextEditingController confirmPasswordController;
+  late TextEditingController ageController;
+  late TextEditingController genderController;
 
-  late String userid ;
+  // late String userid;
 
-  Future addUser({
-    required String name ,
-    required String phone ,
-    required String email ,
-    required String age ,
-    required String gender
-  }) async {
-
+  Future addUser(
+      {required String name,
+      required String phone,
+      required String email,
+      required String age,
+      required String gender,
+      required String userid,
+      required String image,
+      }) async {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-    await firestore.collection('users').doc(email).set({
-      'name' : name ,
-      'phone' : phone ,
-      'email' : email,
-      'age' : age ,
-      'gender' : gender,
+    await firestore.collection('users').doc(userid).set({
+      'name': name,
+      'phone': phone,
+      'email': email,
+      'age': age,
+      'gender': gender,
+      'image' : image,
     });
   }
 
-    @override
+  Future signInWithGoogle() async {
+  // Trigger the authentication flow
+  final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+  if(googleUser == null ) {return;};
+
+  // Obtain the auth details from the request
+  final GoogleSignInAuthentication? googleAuth = await googleUser.authentication;
+
+  // Create a new credential
+  final credential = GoogleAuthProvider.credential(
+    accessToken: googleAuth?.accessToken,
+    idToken: googleAuth?.idToken,
+  );
+
+  // Once signed in, return the UserCredential
+   await FirebaseAuth.instance.signInWithCredential(credential);
+                           addUser(
+                          name: "",
+                          phone: "",
+                          email: "",
+                          age: "",
+                          gender: "", 
+                          userid: FirebaseAuth.instance.currentUser!.uid,
+                          image: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
+                        );
+      Fluttertoast.showToast(
+                            msg: "Signed Up successfully",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.TOP,
+                            timeInSecForIosWeb: 5,
+                            backgroundColor: Colors.green[200],
+                            textColor: Colors.grey,
+                            fontSize: 16.0);
+    Navigator.pushReplacement(
+                            context,
+                            PageTransition(
+                                child: const RootPage(),
+                                type: PageTransitionType.bottomToTop));
+}
+
+  @override
   void initState() {
     super.initState();
     nameController = TextEditingController();
@@ -71,12 +117,13 @@ class _SignUpState extends State<SignUp> {
     genderController.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
-       appBar: AppBar(
+      appBar: AppBar(
         backgroundColor: Colors.transparent,
         foregroundColor: Constants.blackColor,
       ),
@@ -84,203 +131,198 @@ class _SignUpState extends State<SignUp> {
         key: _formKey,
         child: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric( horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Image.asset('assets/images/signup.png', width: size.width * 0.6 , height: size.width * 0.6 ,),
-                 const SizedBox(height: 10,),
-                 const Align(
-                  alignment: Alignment.centerLeft,
-                   child: Text(
+                  Image.asset(
+                    'assets/images/signup.png',
+                    width: size.width * 0.6,
+                    height: size.width * 0.6,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
                       'Sign Up',
-                       style: TextStyle(
+                      style: TextStyle(
                         fontSize: 35.0,
-                        fontWeight: FontWeight.w700, 
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
-                 ),
+                  ),
                   const SizedBox(
                     height: 20,
                   ),
-                   TextFormField(
-                     controller: nameController,
-                     keyboardType: TextInputType.name,
-                     validator: (value) {
-                       if (value!.isEmpty)  {
-                         return "Name must not be empty";
-                       } return null ;},
-                     decoration: const InputDecoration(
-                       border: OutlineInputBorder(),
-                       labelText: "Full Name",
-                       prefixIcon: Icon(Icons.person),
-                     ),
-                   ),
-                const SizedBox(
-                  height: 5,
-                ),
-                TextFormField(
-                  controller: phoneController,
-                  keyboardType: TextInputType.phone,
-                  validator: (value) {
-                    if (value!.isEmpty)  {
-                      return "Phone Number must not be empty";
-                    } else if (value.length < 11) {
-                      return " Phone Number must be 11 digit";
-                    }
-                     return null ;
+                  CustomTextFormField(
+                    controller: nameController,
+                    labelText: "Full Name",
+                    prefixIcon: const Icon(Icons.person),
+                    keyboardType: TextInputType.name,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "Name must not be empty";
+                      }
+                      return null;
                     },
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  CustomTextFormField(
+                    controller: phoneController,
                     labelText: "Phone Number",
-                    prefixIcon: Icon(Icons.phone),
+                    prefixIcon: const Icon(Icons.phone),
+                    keyboardType: TextInputType.phone,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "Phone Number must not be empty";
+                      } else if (value.length < 11) {
+                        return " Phone Number must be 11 digit";
+                      }
+                      return null;
+                    },
                   ),
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                TextFormField(
-                  controller: emailController ,
-                  keyboardType: TextInputType.emailAddress,
-                  validator: (value) {
-                    if (value!.isEmpty)  {
-                      return "Email address must not be empty";
-                    } else if (!value.contains('@')) {
-                      return "Unveiled email address , must contains @ symbol";
-                    }
-                    return null ;
-                  },
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  CustomTextFormField(
+                    controller: emailController,
+                    keyboardType: TextInputType.emailAddress,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "Email address must not be empty";
+                      } else if (!value.contains('@')) {
+                        return "Unveiled email address , must contains @ symbol";
+                      }
+                      return null;
+                    },
                     labelText: "Email Address",
-                    prefixIcon: Icon(Icons.alternate_email),
+                    prefixIcon: const Icon(Icons.alternate_email),
                   ),
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                TextFormField(
-                  controller: passwordController ,
-                  obscureText: passToggle ? true : false,
-                  obscuringCharacter: "*",
-                  validator: (value) {
-                    if (value!.isEmpty)  {
-                      return "Password must not be empty";
-                    } else if (value.length < 6) {
-                      return "Password must be at least 6 characters" ;
-                    }
-                    return null ;
-                  },
-                  decoration: InputDecoration(
-                      border: const OutlineInputBorder(),
-                      labelText: "Password",
-                      prefixIcon: const Icon(Icons.lock_open),
-                    suffixIcon: InkWell(
-                      onTap: () {
-                        passToggle = !passToggle ;
-                        setState(() {});
-                      },
-                      child: passToggle
-                          ? const Icon(Icons.visibility)
-                          : const Icon(Icons.visibility_off),
-                    ),
+                  const SizedBox(
+                    height: 5,
                   ),
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                TextFormField(
-                  controller: confirmPasswordController ,
-                  obscureText: confirmpassToggle ? true : false,
-                  obscuringCharacter: "*",
-                  validator: (value) {
-                    if (value!.isEmpty)  {
-                      return "Password must not be empty";
-                    } else if (value != passwordController.text) {
-                      return "Password does not match" ;
-                    }
-                    return null ;
-                  },
-                  decoration: InputDecoration(
-                    border: const OutlineInputBorder(),
+                  CustomTextFormField(
+                    controller: passwordController,
+                    isPasswordField: true,
+                    keyboardType: TextInputType.text,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "Password must not be empty";
+                      } else if (value.length < 6) {
+                        return "Password must be at least 6 characters";
+                      }
+                      return null;
+                    },
+                    labelText: "Password",
+                    prefixIcon: const Icon(Icons.lock_open),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  CustomTextFormField(
+                    controller: confirmPasswordController,
+                    keyboardType: TextInputType.text,
+                    isPasswordField: true,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "Password must not be empty";
+                      } else if (value != passwordController.text) {
+                        return "Password does not match";
+                      }
+                      return null;
+                    },
                     labelText: "Confirm Password",
                     prefixIcon: const Icon(Icons.lock_open),
-                    suffixIcon: InkWell(
-                      onTap: () {
-                        confirmpassToggle = !confirmpassToggle ;
-                        setState(() {});
-                      },
-                      child: confirmpassToggle
-                          ? const Icon(Icons.visibility)
-                          : const Icon(Icons.visibility_off),
-                    ),
                   ),
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                TextFormField(
-                  controller: ageController,
-                  keyboardType: TextInputType.number,
-                  // validator: (value) {
-                  //   if (value!.isEmpty)  {
-                  //     return "Name must not be empty";
-                  //   } return null ;},
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  CustomTextFormField(
+                    controller: ageController,
+                    keyboardType: TextInputType.number,
+                    validator: (value) {
+                      // if (value!.isEmpty)  {
+                      //   return "Age must not be empty";
+                      // } return null ;
+                    },
                     labelText: "Age",
-                    prefixIcon: Icon(Icons.calendar_month_outlined),
+                    prefixIcon: const Icon(Icons.calendar_month_outlined),
                   ),
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                TextFormField(
-                  controller: genderController,
-                  keyboardType: TextInputType.name,
-                  // validator: (value) {
-                  //   if (value!.isEmpty)  {
-                  //     return "Name must not be empty";
-                  //   } return null ;},
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  CustomTextFormField(
+                    controller: genderController,
+                    keyboardType: TextInputType.name,
+                    validator: (value) {
+                      // if (value!.isEmpty)  {
+                      //   return "Gender must not be empty";
+                      // } return null ;
+                    },
                     labelText: "Gender",
-                    prefixIcon: Icon(Icons.male),
+                    prefixIcon: const Icon(Icons.male),
                   ),
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
+                  const SizedBox(
+                    height: 5,
+                  ),
                   const SizedBox(
                     height: 10,
                   ),
                   GestureDetector(
                     onTap: () async {
-                      if (_formKey.currentState!.validate())  {
-                        await FirebaseAuth.instance.createUserWithEmailAndPassword(
-                            email: emailController.text,
-                            password: passwordController.text
-                        ).then((value) {
-                          Navigator.pushReplacement(context, MaterialPageRoute(
-                              builder: (context) => const SignIn()),);
+                      if (_formKey.currentState!.validate()) {
+                        await FirebaseAuth.instance
+                            .createUserWithEmailAndPassword(
+                                email: emailController.text,
+                                password: passwordController.text)  
+                            .then((value) {
+                              FirebaseAuth.instance.currentUser!.sendEmailVerification();
+                                 Fluttertoast.showToast(
+                            msg: "Registerd successfully",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.TOP,
+                            timeInSecForIosWeb: 5,
+                            backgroundColor: Colors.green[200],
+                            textColor: Colors.grey,
+                            fontSize: 16.0);
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const SignIn()),
+                          );
                         }).catchError((error) {
+                             Fluttertoast.showToast(
+                            msg: error.toString(),
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.TOP,
+                            timeInSecForIosWeb: 5,
+                            backgroundColor: Colors.red[200],
+                            textColor: Colors.grey,
+                            fontSize: 16.0);
                           print(error.toString());
                         });
                         addUser(
-                          name : nameController.text ,
-                          phone : phoneController.text ,
-                          email : emailController.text,
-                          age : ageController.text ,
-                          gender : genderController.text ,);
+                          name: nameController.text,
+                          phone: phoneController.text,
+                          email: emailController.text,
+                          age: ageController.text,
+                          gender: genderController.text, 
+                          userid: FirebaseAuth.instance.currentUser!.uid,
+                          image: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
+                        );
                       }
                     },
-                     child: Button(
+                    child: Button(
                       itext: "Sign Up",
                       bgColor: Constants.primaryColor,
                       containerWidth: size.width,
-                     ),
+                    ),
                   ),
                   const SizedBox(
                     height: 20,
@@ -298,29 +340,34 @@ class _SignUpState extends State<SignUp> {
                   const SizedBox(
                     height: 20,
                   ),
-                   Container(
-                    height: 60,
-                    width: size.width,
-                    decoration: BoxDecoration(
-                      color: Colors.grey[300],
-                      shape: BoxShape.rectangle,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        SizedBox(
-                          height: 30,
-                          child: Image.asset('assets/images/google.png'),
-                        ),
-                        const Text(
-                          'Sign Up with Google',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 22,
+                  InkWell(
+                    onTap: () {
+                        signInWithGoogle();
+                    },
+                    child: Container(
+                      height: 60,
+                      width: size.width,
+                      decoration: BoxDecoration(
+                        color: Colors.grey[300],
+                        shape: BoxShape.rectangle,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          SizedBox(
+                            height: 30,
+                            child: Image.asset('assets/images/google.png'),
                           ),
-                        ),
-                      ],
+                          const Text(
+                            'Sign Up with Google',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 22,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   const SizedBox(
@@ -363,14 +410,12 @@ class _SignUpState extends State<SignUp> {
   }
 }
 
-
-
 class PassUserData {
-
-   String? userid;
-   String? name ;
-   String? phone ;
-   String? email ;
-   String? age ;
-   String? gender ;
+  String? userid;
+  String? name;
+  String? phone;
+  String? email;
+  String? age;
+  String? gender;
+  String? image; 
 }

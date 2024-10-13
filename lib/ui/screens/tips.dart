@@ -4,7 +4,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 
 class TipsAndTricksScreen extends StatelessWidget {
-  final String featuredTipUrl = 'https://aggie-horticulture.tamu.edu/earthkind/landscape/proper-pruning-techniques/#:~:text=In%20most%20instances%2C%20it%20is,of%20the%20plants%20or%20crisscross.';
+  final String featuredTipUrl =" https://www.longfield-gardens.com/article/how-to-water-your-plants ";
 
   const TipsAndTricksScreen({super.key}); 
   
@@ -24,45 +24,45 @@ class TipsAndTricksScreen extends StatelessWidget {
       //   ),
       // ),
       body: Padding(
-         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Search Bar
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16.0,
-                ),
-                width: size.width ,
-                decoration: BoxDecoration(
-                  color: Constants.primaryColor.withOpacity(.1),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.search,
-                      color: Colors.black54.withOpacity(.6),
-                    ),
-                    const Expanded(
-                        child: TextField(
-                      showCursor: false,
-                      decoration: InputDecoration(
-                        hintText: 'Search For Tips...',
-                        border: InputBorder.none,
-                        focusedBorder: InputBorder.none,
-                      ),
-                    )
-                    ),
-                    Icon(
-                      Icons.mic,
-                      color: Colors.black54.withOpacity(.6),
-                    ),
-                  ],
-                ),
-              ),
+              // Container(
+              //   padding: const EdgeInsets.symmetric(
+              //     horizontal: 16.0,
+              //   ),
+              //   width: size.width ,
+              //   decoration: BoxDecoration(
+              //     color: Constants.primaryColor.withOpacity(.1),
+              //     borderRadius: BorderRadius.circular(20),
+              //   ),
+              //   child: Row(
+              //     crossAxisAlignment: CrossAxisAlignment.center,
+              //     mainAxisAlignment: MainAxisAlignment.center,
+              //     children: [
+              //       Icon(
+              //         Icons.search,
+              //         color: Colors.black54.withOpacity(.6),
+              //       ),
+              //       const Expanded(
+              //           child: TextField(
+              //         showCursor: false,
+              //         decoration: InputDecoration(
+              //           hintText: 'Search For Tips...',
+              //           border: InputBorder.none,
+              //           focusedBorder: InputBorder.none,
+              //         ),
+              //       )
+              //       ),
+              //       Icon(
+              //         Icons.mic,
+              //         color: Colors.black54.withOpacity(.6),
+              //       ),
+              //     ],
+              //   ),
+              // ),
           
             // const TextField(
             //   decoration: InputDecoration(
@@ -105,19 +105,19 @@ class TipsAndTricksScreen extends StatelessWidget {
               spacing: 8.0,
               children: [
                 GestureDetector(
-                  onTap: () => _launchURL('https://www.thesill.com/blog/top-ten-plant-care-tips'),
+                  onTap: () => _launchURL("https://www.thesill.com/blogs/plants-101/top-ten-plant-care-tips?srsltid=AfmBOorGja4-WunQN9pDZ1yq72tVc_8tagUi_g1v_4IVkL6LIECbgBwT"),
                   child: const Chip(label: Text('Indoor Plants')),
                 ),
                 GestureDetector(
-                  onTap: () => _launchURL('https://www.exscapedesigns.com/outdoor-plants-how-to-keep-them-healthy-and-alive/'),
+                  onTap: () => _launchURL("https://sloatgardens.com/how-to-plant-a-plant-in-8-steps/"),
                   child: const Chip(label: Text('Outdoor Plants')),
                 ),
                 GestureDetector(
-                  onTap: () => _launchURL('https://extension.umn.edu/manage-soil-nutrients/quick-guide-fertilizing-plants'),
+                  onTap: () => _launchURL("https://www.smilinggardener.com/organic-fertilizers/garden-fertilizer-tips/"),
                   child: const Chip(label: Text('Fertilizing')),
                 ),
                 GestureDetector(
-                  onTap: () => _launchURL('https://bloominghaus.com/news/how-to-use-plants-for-natural-pest-control/'),
+                  onTap: () => _launchURL("https://www.fieldroutes.com/blog/pest-control-methods"),
                   child: const Chip(label: Text('Pest Control')),
                 ),
               ],

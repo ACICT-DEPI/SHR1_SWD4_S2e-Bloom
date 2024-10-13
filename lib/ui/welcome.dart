@@ -38,7 +38,7 @@ class WelcomScreen extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Navigator.push(
+                    Navigator.pushReplacement(
                         context,
                         PageTransition(
                             child: const SignIn(),
@@ -68,7 +68,7 @@ class WelcomScreen extends StatelessWidget {
                 ),
                  GestureDetector(
                   onTap: () {
-                    Navigator.push(
+                    Navigator.pushReplacement(
                         context,
                         PageTransition(
                             child: const SignUp(),

@@ -50,21 +50,21 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               });
             },
             controller: _pageController,
-            children: [
+            children: const [
               CreatePage(
                 image: 'assets/images/plant-one.png',
-                title: Constants.titleOne,
-                description: Constants.descriptionOne,
+                title: "Learn more about plants",
+                description:"Read how to care for plants in our rich plants guide.",
               ),
               CreatePage(
                 image: 'assets/images/plant-two.png',
-                title: Constants.titleTwo,
-                description: Constants.descriptionTwo,
+                title: "Find a plant lover friend",
+                description: "Are you a plant lover? Connect with other plant lovers.",
               ),
               CreatePage(
                 image: 'assets/images/plant-three.png',
-                title: Constants.titleThree,
-                description: Constants.descriptionThree,
+                title:"Plant a tree, green the Earth",
+                description:"Find almost all types of plants that you like here.",
               ),
             ],
           ),

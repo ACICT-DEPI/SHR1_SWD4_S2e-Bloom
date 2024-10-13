@@ -27,6 +27,7 @@ class MyApp extends StatelessWidget {
       ),
       home: const Splash(),
       // home:  showHome ? Splash() : OnboardingScreen(),
+      // home: (FirebaseAuth.instance.currentUser != null && FirebaseAuth.instance.currentUser!.emailVerified) ? : ,
     );
   }
 }

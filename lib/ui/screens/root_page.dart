@@ -1,11 +1,12 @@
 
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:bloom/constants.dart';
+import 'package:bloom/ui/screens/chat_view.dart';
 import 'package:bloom/ui/screens/market_root_page.dart';
-import 'package:bloom/ui/screens/scan_page.dart';
 import 'package:bloom/ui/screens/community.dart';
 import 'package:bloom/ui/screens/profile_page.dart';
 import 'package:bloom/ui/screens/tips.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -34,7 +35,7 @@ class _RootPageState extends State<RootPage> {
   //List of the pages icons
   List<IconData> iconList = [
     Icons.tips_and_updates_rounded,
-    Icons.chat_rounded,
+    Icons.featured_play_list_rounded,
     Icons.store_mall_directory_rounded,
     Icons.person,
   ];
@@ -71,10 +72,11 @@ class _RootPageState extends State<RootPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: (){
-          Navigator.push(context, PageTransition(child: const ScanPage(), type: PageTransitionType.bottomToTop));
+          Navigator.push(context, PageTransition(child: ChatView(), type: PageTransitionType.bottomToTop));
         },
         backgroundColor: Constants.primaryColor,
-        child: Image.asset('assets/images/code-scan-two.png', height: 30.0,),
+        // child: Image.asset('assets/images/code-scan-two.png', height: 30.0,),
+        child: Icon(CupertinoIcons.wand_stars, color: Colors.white,size: 30,),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: AnimatedBottomNavigationBar(
