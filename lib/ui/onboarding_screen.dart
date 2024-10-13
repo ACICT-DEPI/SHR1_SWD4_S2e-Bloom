@@ -1,9 +1,9 @@
+import 'package:bloom/ui/welcome.dart';
 import 'package:flutter/material.dart';
 import '../constants.dart';
-import 'screens/signin_page.dart';
 
 class OnboardingScreen extends StatefulWidget {
-  const OnboardingScreen({Key? key}) : super(key: key);
+  const OnboardingScreen({super.key});
 
   @override
   State<OnboardingScreen> createState() => _OnboardingScreenState();
@@ -26,7 +26,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             child: InkWell(
               onTap: () {
                 Navigator.pushReplacement(
-                    context, MaterialPageRoute(builder: (_) => const SignIn()));
+                    context, MaterialPageRoute(builder: (_) => const WelcomScreen()));
               }, //to login screen. We will update later
               child: const Text(
                 'Skip',
@@ -50,21 +50,21 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               });
             },
             controller: _pageController,
-            children: [
+            children: const [
               CreatePage(
                 image: 'assets/images/plant-one.png',
-                title: Constants.titleOne,
-                description: Constants.descriptionOne,
+                title: "Learn more about plants",
+                description:"Read how to care for plants in our rich plants guide.",
               ),
               CreatePage(
                 image: 'assets/images/plant-two.png',
-                title: Constants.titleTwo,
-                description: Constants.descriptionTwo,
+                title: "Find a plant lover friend",
+                description: "Are you a plant lover? Connect with other plant lovers.",
               ),
               CreatePage(
                 image: 'assets/images/plant-three.png',
-                title: Constants.titleThree,
-                description: Constants.descriptionThree,
+                title:"Plant a tree, green the Earth",
+                description:"Find almost all types of plants that you like here.",
               ),
             ],
           ),
@@ -79,6 +79,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             bottom: 60,
             right: 30,
             child: Container(
+              padding: const EdgeInsets.all(4),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Constants.primaryColor,
+              ),
               child: IconButton(
                   onPressed: () {
                     setState(() {
@@ -91,7 +96,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         }
                       } else {
                         Navigator.pushReplacement(context,
-                            MaterialPageRoute(builder: (_) => const SignIn()));
+                            MaterialPageRoute(builder: (_) => const WelcomScreen()));
                       }
                     });
                   },
@@ -100,11 +105,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     size: 24,
                     color: Colors.white,
                   )),
-              padding: const EdgeInsets.all(4),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Constants.primaryColor,
-              ),
             ),
           ),
         ],
@@ -150,11 +150,11 @@ class CreatePage extends StatelessWidget {
   final String description;
 
   const CreatePage({
-    Key? key,
+    super.key,
     required this.image,
     required this.title,
     required this.description,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

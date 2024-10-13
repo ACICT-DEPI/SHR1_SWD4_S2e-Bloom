@@ -4,7 +4,7 @@ import 'package:bloom/models/plants.dart';
 
 class DetailPage extends StatefulWidget {
   final int plantId;
-  const DetailPage({Key? key, required this.plantId}) : super(key: key);
+  const DetailPage({super.key, required this.plantId});
 
   @override
   State<DetailPage> createState() => _DetailPageState();
@@ -224,16 +224,6 @@ class _DetailPageState extends State<DetailPage> {
             Container(
               height: 50,
               width: 50,
-              child: IconButton(onPressed: (){
-                setState(() {
-                  bool isSelected = toggleIsSelected(_plantList[widget.plantId].isSelected);
-
-                  _plantList[widget.plantId].isSelected = isSelected;
-                });
-              }, icon: Icon(
-                Icons.shopping_cart,
-                color: _plantList[widget.plantId].isSelected == true ? Colors.white : Constants.primaryColor,
-              )),
               decoration: BoxDecoration(
                   color: _plantList[widget.plantId].isSelected == true ? Constants.primaryColor.withOpacity(.5) : Colors.white,
                   borderRadius: BorderRadius.circular(50),
@@ -244,6 +234,16 @@ class _DetailPageState extends State<DetailPage> {
                       color: Constants.primaryColor.withOpacity(.3),
                     ),
                   ]),
+              child: IconButton(onPressed: (){
+                setState(() {
+                  bool isSelected = toggleIsSelected(_plantList[widget.plantId].isSelected);
+
+                  _plantList[widget.plantId].isSelected = isSelected;
+                });
+              }, icon: Icon(
+                Icons.shopping_cart,
+                color: _plantList[widget.plantId].isSelected == true ? Colors.white : Constants.primaryColor,
+              )),
             ),
             const SizedBox(
               width: 20,
@@ -282,10 +282,10 @@ class PlantFeature extends StatelessWidget {
   final String plantFeature;
   final String title;
   const PlantFeature({
-    Key? key,
+    super.key,
     required this.plantFeature,
     required this.title,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

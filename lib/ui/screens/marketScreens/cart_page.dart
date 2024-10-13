@@ -1,17 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:bloom/constants.dart';
 import 'package:bloom/models/plants.dart';
-import 'package:bloom/ui/screens/widgets/plant_widget.dart';
+import 'package:bloom/ui/widgets/plant_widget.dart';
 
 class CartPage extends StatefulWidget {
   final List<Plant> addedToCartPlants;
-  const CartPage({Key? key, required this.addedToCartPlants}) : super(key: key);
+  const CartPage({super.key, required this.addedToCartPlants});
 
   @override
   State<CartPage> createState() => _CartPageState();
 }
 
 class _CartPageState extends State<CartPage> {
+
+   // Method to calculate the total price of plants in the cart
+  double calculateTotal() {
+    double total = 0.0;
+    for (var plant in widget.addedToCartPlants) {
+      total += plant.price; // Assuming each plant has a 'price' field
+    }
+    return total;
+  }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -67,7 +76,7 @@ class _CartPageState extends State<CartPage> {
                       fontWeight: FontWeight.w300,
                     ),
                     ),
-                      Text(r'$65', style: TextStyle(
+                      Text('\$${calculateTotal().toStringAsFixed(2)}', style: TextStyle(
                         fontSize: 24.0,
                         color: Constants.primaryColor,
                         fontWeight: FontWeight.bold,

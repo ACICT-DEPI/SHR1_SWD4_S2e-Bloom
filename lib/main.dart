@@ -1,8 +1,15 @@
 import 'package:bloom/ui/splash.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
-  runApp(const MyApp());
+void main()  async {
+
+  WidgetsFlutterBinding.ensureInitialized();
+  final prefs = await SharedPreferences.getInstance();
+//final showHome = prefs.getBool('showHome') ?? false;
+  await Firebase.initializeApp();
+  runApp(const MyApp(/*showHome : showHome*/));
 }
 
 class MyApp extends StatelessWidget {
@@ -15,10 +22,12 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Bloom',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Color(0xff6a9c89)),
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff6a9c89)),
         useMaterial3: true,
       ),
       home: const Splash(),
+      // home:  showHome ? Splash() : OnboardingScreen(),
+      // home: (FirebaseAuth.instance.currentUser != null && FirebaseAuth.instance.currentUser!.emailVerified) ? : ,
     );
   }
 }
