@@ -1,16 +1,11 @@
-# bloom
+# Bloom
 
-A new Flutter project.
+Welcome to the Bloom App guide! Our app is designed to help all plant lovers to find all they need about their passion. Our app includes the main features : 
 
-## Getting Started
+• Tips & Tricks about plants, how to take of them, watering…. Etc.
+• Community to share whatever you need with other plant lovers and seek help if you need it.
+• AI chatbot to ask for all the information you need about plants.
+• Marketplace to purchase all your favorite plants.
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Our app includes a high level of security and a real time database using Firebase and all its features (authentication, storage, Cloud firestore )
