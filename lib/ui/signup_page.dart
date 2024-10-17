@@ -77,7 +77,7 @@ class _SignUpState extends State<SignUp> {
                           age: "",
                           gender: "", 
                           userid: FirebaseAuth.instance.currentUser!.uid,
-                          image: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
+                          image: "assets\default-avatar-icon-of-social-media-user-vector.jpg",
                         );
       Fluttertoast.showToast(
                             msg: "Signed Up successfully",
@@ -314,7 +314,7 @@ class _SignUpState extends State<SignUp> {
                           age: ageController.text,
                           gender: genderController.text, 
                           userid: FirebaseAuth.instance.currentUser!.uid,
-                          image: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
+                          image: "assets\default-avatar-icon-of-social-media-user-vector.jpg",
                         );
                       }
                     },

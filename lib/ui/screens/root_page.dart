@@ -72,11 +72,11 @@ class _RootPageState extends State<RootPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: (){
-          Navigator.push(context, PageTransition(child: ChatView(), type: PageTransitionType.bottomToTop));
+          Navigator.push(context, PageTransition(child: const ChatView(), type: PageTransitionType.bottomToTop));
         },
         backgroundColor: Constants.primaryColor,
         // child: Image.asset('assets/images/code-scan-two.png', height: 30.0,),
-        child: Icon(CupertinoIcons.wand_stars, color: Colors.white,size: 30,),
+        child: const Icon(CupertinoIcons.wand_stars, color: Colors.white,size: 30,),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: AnimatedBottomNavigationBar(

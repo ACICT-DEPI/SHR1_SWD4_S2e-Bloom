@@ -1,5 +1,6 @@
 import 'package:bloom/ui/welcome.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../constants.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -22,11 +23,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         backgroundColor: Colors.white,
         actions: [
           Padding(
-            padding: const EdgeInsets.only(right: 20,),
+            padding: const EdgeInsets.only(
+              right: 20,
+            ),
             child: InkWell(
               onTap: () {
-                Navigator.pushReplacement(
-                    context, MaterialPageRoute(builder: (_) => const WelcomScreen()));
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (_) => const WelcomScreen()));
               }, //to login screen. We will update later
               child: const Text(
                 'Skip',
@@ -54,17 +57,20 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               CreatePage(
                 image: 'assets/images/plant-one.png',
                 title: "Learn more about plants",
-                description:"Read how to care for plants in our rich plants guide.",
+                description:
+                    "Read how to care for plants in our rich plants guide.",
               ),
               CreatePage(
                 image: 'assets/images/plant-two.png',
                 title: "Find a plant lover friend",
-                description: "Are you a plant lover? Connect with other plant lovers.",
+                description:
+                    "Are you a plant lover? Connect with other plant lovers.",
               ),
               CreatePage(
                 image: 'assets/images/plant-three.png',
-                title:"Plant a tree, green the Earth",
-                description:"Find almost all types of plants that you like here.",
+                title: "Plant a tree, green the Earth",
+                description:
+                    "Find almost all types of plants that you like here.",
               ),
             ],
           ),
@@ -95,8 +101,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                               curve: Curves.easeIn);
                         }
                       } else {
-                        Navigator.pushReplacement(context,
-                            MaterialPageRoute(builder: (_) => const WelcomScreen()));
+                        Done(context);
                       }
                     });
                   },
@@ -112,6 +117,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     );
   }
 
+  void Done(context) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setBool('showHome', true);
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (_) => const WelcomScreen()));
+  }
   //Extra Widgets
 
   //Create the indicator decorations widget

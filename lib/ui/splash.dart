@@ -1,22 +1,30 @@
 import 'dart:async';
 import 'package:bloom/ui/onboarding_screen.dart';
+import 'package:bloom/ui/screens/root_page.dart';
+import 'package:bloom/ui/welcome.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Splash extends StatefulWidget {
-  const Splash({super.key});
+ 
+  final showHome;
+  const Splash({super.key ,required this.showHome } );
 
   @override
   State<Splash> createState() => _SplashState();
 }
 
 class _SplashState extends State<Splash> {
+  
 
   @override
-  void initState() {
+  void initState(){
     super.initState();
     Timer(const Duration(seconds: 3), () =>
         Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => const  OnboardingScreen() )));
+            MaterialPageRoute(builder: (context) =>
+              (FirebaseAuth.instance.currentUser != null && FirebaseAuth.instance.currentUser!.emailVerified) ? const RootPage() : widget.showHome ?  const WelcomScreen() : const  OnboardingScreen()
+              )));
   }
     @override
   Widget build(BuildContext context) {

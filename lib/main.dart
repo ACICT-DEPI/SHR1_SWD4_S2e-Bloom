@@ -7,13 +7,14 @@ void main()  async {
 
   WidgetsFlutterBinding.ensureInitialized();
   final prefs = await SharedPreferences.getInstance();
-//final showHome = prefs.getBool('showHome') ?? false;
+  final showHome = prefs.getBool('showHome') ?? false;
   await Firebase.initializeApp();
-  runApp(const MyApp(/*showHome : showHome*/));
+  runApp( MyApp(showHome: showHome));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final showHome ;
+  const MyApp({super.key, required this.showHome});
 
   // This widget is the root of your application.
   @override
@@ -25,11 +26,10 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff6a9c89)),
         useMaterial3: true,
       ),
-      home: const Splash(),
-      // home:  showHome ? Splash() : OnboardingScreen(),
+       home:   Splash(showHome: showHome,),
       // home: (FirebaseAuth.instance.currentUser != null && FirebaseAuth.instance.currentUser!.emailVerified) ? : ,
     );
   }
 }
 
-
+     
