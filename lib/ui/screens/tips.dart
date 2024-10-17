@@ -4,7 +4,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 
 class TipsAndTricksScreen extends StatelessWidget {
-  final String featuredTipUrl =" https://www.longfield-gardens.com/article/how-to-water-your-plants ";
+  final String featuredTipUrl = "https://www.longfield-gardens.com/article/how-to-water-your-plants";
 
   const TipsAndTricksScreen({super.key}); 
   

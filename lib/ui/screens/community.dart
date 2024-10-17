@@ -110,7 +110,7 @@ List post = [
                          CircleAvatar(
                                 radius: 20,
                                 backgroundColor: Constants.primaryColor,
-                                backgroundImage: AssetImage("assets/images/profile.jpg"),
+                                backgroundImage: const AssetImage("assets/images/profile.jpg"),
                               ),
                           const SizedBox(width: 10,),
                           Expanded(
@@ -164,7 +164,7 @@ List post = [
                           CircleAvatar(
                             radius: 25,
                             backgroundColor: Constants.primaryColor,
-                            backgroundImage: AssetImage("assets/plants/5915a8419ddae5a091c77078360f3a3c.jpg"),
+                            backgroundImage: const AssetImage("assets/plants/5915a8419ddae5a091c77078360f3a3c.jpg"),
                           ),
                           const SizedBox(width: 8,),
                           Expanded(
@@ -243,7 +243,7 @@ List post = [
                           CircleAvatar(
                             radius: 18,
                             backgroundColor: Constants.primaryColor,
-                            backgroundImage: AssetImage("assets/images/profile.jpg"),
+                            backgroundImage: const AssetImage("assets/images/profile.jpg"),
                             
                           ),
                           const SizedBox(width: 10,),

@@ -35,7 +35,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-        body: loading ? Center(child: CircularProgressIndicator()) :
+        body: loading ? const Center(child: CircularProgressIndicator()) :
           userData != null ?
           SingleChildScrollView(
       child: Padding(
@@ -69,13 +69,13 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
               ] 
             ),
-            SizedBox(height: 30,),
+            const SizedBox(height: 30,),
             Text('${userData!.name!}' , style: Constants.style1,),
             Text('Email : ${userData!.email!}' , style: Constants.style4,),
             Text('Phone : ${userData!.phone!}' , style: Constants.style4,),
             Text('Age : ${userData!.age!}' , style: Constants.style4,),
             Text('Gender: ${userData!.gender!}' , style: Constants.style4,),
-            SizedBox(height: 20,),
+            const SizedBox(height: 20,),
 
             Align(
               alignment: Alignment.center,
@@ -83,7 +83,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 width: double.infinity,
                 child: MaterialButton(onPressed: () {
                    Navigator.push(
-                     context, MaterialPageRoute(builder: (BuildContext) =>  EditProfileScreen()));
+                     context, MaterialPageRoute(builder: (BuildContext) =>  const EditProfileScreen()));
                 } ,
                 color: Constants.primaryColor,
                 child: Text("Edit Profile" , style: Constants.style6,),),
@@ -180,7 +180,7 @@ class _ProfilePageState extends State<ProfilePage> {
           ]
         ),
       )
-    ): Center(
+    ): const Center(
                  child:  Text("Failed to load data"),
       ),
     );

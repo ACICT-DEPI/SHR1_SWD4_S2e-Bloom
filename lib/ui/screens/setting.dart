@@ -28,17 +28,17 @@ class _SettingPageState extends State<SettingPage> {
         child: Column(
           children: [
             ListTile(
-                title: Text('Account'),
+                title: const Text('Account'),
                 trailing: IconButton(onPressed: (){
                   Navigator.pushReplacement(
                       context, MaterialPageRoute(builder: (_) => const ProfilePage())
                   );
                 },
-                  icon: Icon(Icons.arrow_forward_ios),)
+                  icon: const Icon(Icons.arrow_forward_ios),)
             ),
 
             ListTile(
-              title: Text('Dark Mode'),
+              title: const Text('Dark Mode'),
               trailing: Switch(
                 value: isDarkMode,
                 onChanged: (value) {
@@ -50,7 +50,7 @@ class _SettingPageState extends State<SettingPage> {
               ),
             ),
             ListTile(
-              title: Text('Enable Notifications'),
+              title: const Text('Enable Notifications'),
               trailing: Switch(
                 value: notificationsEnabled,
                 onChanged: (value) {
@@ -62,7 +62,7 @@ class _SettingPageState extends State<SettingPage> {
               ),
             ),
             ListTile(
-              title: Text('Arabic Language'),
+              title: const Text('Arabic Language'),
               trailing: Switch(
                 value: languageEnabled,
                 onChanged: (value) {

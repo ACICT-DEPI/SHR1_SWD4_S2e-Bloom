@@ -55,13 +55,13 @@ class _SignInState extends State<SignIn> {
     }
 
     // Obtain the auth details from the request
-    final GoogleSignInAuthentication? googleAuth =
+    final GoogleSignInAuthentication googleAuth =
         await googleUser.authentication;
 
     // Create a new credential
     final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
     );
 
     // Once signed in, return the UserCredential
@@ -73,7 +73,7 @@ class _SignInState extends State<SignIn> {
                           age: "",
                           gender: "", 
                           userid: FirebaseAuth.instance.currentUser!.uid,
-                          image: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
+                          image: "assets\default-avatar-icon-of-social-media-user-vector.jpg",
                         );
        Fluttertoast.showToast(
                             msg: "Signed in successfully",
@@ -135,7 +135,7 @@ class _SignInState extends State<SignIn> {
                   controller: emailController,
                   keyboardType: TextInputType.emailAddress,
                   labelText: 'Email Address',
-                  prefixIcon: Icon(Icons.alternate_email),
+                  prefixIcon: const Icon(Icons.alternate_email),
                   validator: (value) {
                     if (value!.isEmpty) {
                       return "Email address must not be empty";
@@ -151,7 +151,7 @@ class _SignInState extends State<SignIn> {
                   isPasswordField: true,
                   keyboardType: TextInputType.emailAddress,
                   labelText: 'Password',
-                  prefixIcon: Icon(Icons.alternate_email),
+                  prefixIcon: const Icon(Icons.alternate_email),
                   validator: (value) {
                     if (value!.isEmpty) {
                       return "Password must not be empty";
