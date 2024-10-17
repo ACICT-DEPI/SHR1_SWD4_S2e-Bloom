@@ -12,3 +12,12 @@ Welcome to the Bloom App guide! Our app is designed to help all plant lovers to 
 
 
 Our app includes a high level of security and a real time database using Firebase and all its features (authentication, storage, Cloud firestore )
+
+
+# Project Overview 
+
+
+
+
+# Presentation 
+
