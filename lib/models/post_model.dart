@@ -1,48 +1,74 @@
-class PostModel {
-  PostModel({
-    required this.text,
-    required this.time,
-    required this.image,
-    required this.ownerName,
-    required this.ownerImage,
-    required this.likes,
-    required this.shares,
-    required this.comments,
-  });
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
+class PostModel {
+
+  late final String userName;
+  late final String userImage;
+  late final String userid;
   late final String text;
   late final String time;
   late final String image;
-  late final String ownerName;
-  late final String ownerImage;
-  late final List<String> likes;
-  late int shares;
-  late final List<CommentModel> comments;
 
-  PostModel.fromJson(Map<String, dynamic> json) {
-    text = json['text'] ?? '';
-    time = json['time'] ?? '';
-    image = json['image'] ?? '';
-    ownerName = json['ownerName'] ?? '';
-    ownerImage = json['ownerImage'] ?? '';
-    likes = List.from(json['likes']).map((e) => e.toString()).toList();
-    shares = json['shares'] ?? 0;
-    comments = List.from(json['comments']).map((e) => CommentModel.fromJson(e)).toList();
-  }
+  PostModel({
+    required this.userName,
+    required this.userImage,
+    required this.userid,
+    required this.text,
+    required this.time,
+    required this.image
+  });
 
-  Map<String, dynamic> toJson() {
-    return {
-      'text': text,
-      'time': time,
-      'image': image,
-      'ownerName': ownerName,
-      'ownerImage': ownerImage,
-      'likes': likes.map((element) => element).toList(),
-      'shares': shares,
-      'comments': comments.map((element) => element.toJson()).toList(),
-    };
-  }
+
+  Map<String, dynamic> toMap() =>
+      {
+        'userName': userName,
+        'userImage' : userImage,
+        'userid' : userid,
+        'text' : text,
+        'image' : image,
+        'time' : time,
+      };
+
+
+  factory PostModel.fromJason(Map<String, dynamic> jason) =>
+      PostModel(
+        userName : jason["userName"],
+        userImage : jason["userImage"],
+        userid : jason["userid"],
+        text : jason["text"],
+        image : jason["image"],
+        time :jason["time"],
+
+      
+      );
+
+
 }
+
+// class UserModelProvider {
+
+
+//   UserModel? userModel;
+//   String? user = FirebaseAuth.instance.currentUser!.uid;
+
+//   Future<UserModel?> getUserData() async {
+//     await FirebaseFirestore.instance
+//           .collection('users')
+//           .doc(user)
+//           .get()
+//           .then((value) {
+//         userModel = UserModel.fromJason(value.data()!);
+//         print("****************************************************");
+//         print(userModel);
+//         print(value.data());
+//         print("****************************************************");
+//       }
+//       );
+//       return userModel;
+//     }
+//   }
+
 
 class CommentModel {
   CommentModel({

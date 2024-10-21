@@ -89,7 +89,7 @@ class ForgotPassword extends StatelessWidget {
                   } catch(e) {
                   // رساله
                       Fluttertoast.showToast(
-                            msg: e.toString(),
+                            msg: "Something Went Wrong , please try again",
                             toastLength: Toast.LENGTH_SHORT,
                             gravity: ToastGravity.TOP,
                             timeInSecForIosWeb: 50,
