@@ -15,7 +15,7 @@ class UserModel {
 
   UserModel({this.email, this.name, this.phone, this.age, this.gender, this.userid, this.image } );
 
-  Map<String, dynamic> toJason() =>
+  Map<String, dynamic> toMap() =>
       {
         'name': name,
         'phone': phone,

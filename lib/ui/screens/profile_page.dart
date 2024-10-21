@@ -64,7 +64,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               child:  CircleAvatar(
                 radius: 60,
-                backgroundImage: ExactAssetImage('${userData!.image!}'),
+                //backgroundImage: ExactAssetImage('${userData!.image!}'),
               ),
             ),
               ] 

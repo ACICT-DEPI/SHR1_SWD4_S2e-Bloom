@@ -5,10 +5,10 @@ import 'package:bloom/models/user_model.dart';
 import 'package:bloom/ui/widgets/custom_button.dart';
 import 'package:bloom/ui/widgets/custom_textform.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({super.key});
@@ -23,78 +23,133 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   UserModel? userData;
 
   late TextEditingController nameController;
-
   late TextEditingController phoneController;
-
   late TextEditingController emailController;
-
   late TextEditingController passwordController;
-
   late TextEditingController confirmPasswordController;
-
   late TextEditingController ageController;
-
   late TextEditingController genderController;
 
-  Future editUserInfo({
-    required String name,
-    required String phone,
-    required String email,
-    required String age,
-    required String gender,
-    required String userid,
-    required String image,
-  }) async {
-    FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-    await firestore.collection('users').doc(userid).update({
-      'name': name,
-      'phone': phone,
-      'email': email,
-      'age': age,
-      'gender': gender,
-      'image': image,
+    File? profileImage;
+  final ImagePicker picker = ImagePicker();
+
+  Future getProfileImage() async {
+    final pickedFile = await picker.pickImage(source : ImageSource.gallery);
+
+    setState(() {
+         if (pickedFile != null ) {
+      profileImage = File(pickedFile.path);
+    } else {
+      print("No image selected");
+    }
     });
   }
+
+  String profileImageUrl = '' ;
+
+  uploadProfileImage() {
+    firebase_storage.FirebaseStorage.instance
+    .ref()
+    .child('users/${Uri.file(profileImage!.path).pathSegments.last}')
+    .putFile(profileImage!)
+    .then((value) {
+      value.ref.getDownloadURL().then((val) { 
+        setState(() {
+         profileImageUrl = val;
+      });} ).catchError((error) {});
+     
+    })
+    .catchError((error) {});
+  }
+
+    editUserInfo(
+    {
+      required String name ,
+      required String phone ,
+      String? age ,
+      String? gender , 
+      
+    }
+   ) {
+   setState(() {
+     
+    if (profileImage != null ) {
+      uploadProfileImage();
+    } else {
+
+    UserModel model = UserModel(
+      name : name,
+      phone : phone ,
+      age: age ,
+      gender:  gender,
+      email: userData?.email,
+      userid: userData?.userid,
+      image: userData?.image,
+    );
+    
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+     firestore.collection('users')
+     .doc(userData?.userid)
+     .update(model.toMap())
+     .then((value) {
+     setState(() {
+        FirebaseFirestore.instance.collection('users').doc(userData?.userid).get()
+                          .then((value) {               
+                        Fluttertoast.showToast(
+                            msg: "Data Updated successfully",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.TOP,
+                            timeInSecForIosWeb: 5,
+                            backgroundColor: Colors.green[200],
+                            textColor: Colors.grey,
+                            fontSize: 16.0);
+                      }).catchError((error) {
+                        Fluttertoast.showToast(
+                            msg: "Somthing went wrong",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.TOP,
+                            timeInSecForIosWeb: 5,
+                            backgroundColor: Colors.red[200],
+                            textColor: Colors.grey,
+                            fontSize: 16.0);
+                        print(error.toString());
+                      });
+     });
+      
+     }).catchError((error) {});
+  }
+   });
+}
 
   @override
   void initState() {
     super.initState();
     nameController = TextEditingController();
     phoneController = TextEditingController();
-    emailController = TextEditingController();
-    passwordController = TextEditingController();
-    confirmPasswordController = TextEditingController();
+    //emailController = TextEditingController();
     ageController = TextEditingController();
     genderController = TextEditingController();
+
+    UserModelProvider().getUserData().then((user) {
+      setState(() {
+        userData = user;
+      });
+    });
   }
+
 
   @override
   void dispose() {
     nameController.dispose();
     phoneController.dispose();
-    emailController.dispose();
-    passwordController.dispose();
-    confirmPasswordController.dispose();
     ageController.dispose();
     genderController.dispose();
     super.dispose();
   }
 
-    File? image ;
-  final ImagePicker picker = ImagePicker();
-
-  Future getImage() async {
-    final pickedFile = await picker.pickImage(source : ImageSource.gallery);
-
-    setState(() {
-         if (pickedFile != null ) {
-      image = File(pickedFile.path);
-    } else {
-      print("No image selected");
-    }
-    });
-  }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -142,13 +197,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     ),
                     child: CircleAvatar(
                       radius: 60,
-                      backgroundImage: image == null ? NetworkImage(userData!.image!) : FileImage(image!) as ImageProvider,
+                      backgroundImage: profileImage == null ? AssetImage("assets/plants/Id1(1).jpg") : FileImage(profileImage!) ,
 
                       //backgroundImage:image == null ?  NetworkImage('${userData!.image!}') : FileImage(image) ,
                     ),
                   ),
                   IconButton(onPressed: () {
-                    getImage();
+                    getProfileImage();
                   }, 
                   icon: const Icon(Icons.add_a_photo_outlined))
 
@@ -186,20 +241,20 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 const SizedBox(
                   height: 5,
                 ),
-                CustomTextFormField(
-                  controller: emailController,
-                  keyboardType: TextInputType.emailAddress,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return "Email address must not be empty";
-                    } else if (!value.contains('@')) {
-                      return "Unveiled email address , must contains @ symbol";
-                    }
-                    return null;
-                  },
-                  labelText: "Email Address",
-                  prefixIcon: const Icon(Icons.alternate_email),
-                ),
+                // CustomTextFormField(
+                //   controller: emailController,
+                //   keyboardType: TextInputType.emailAddress,
+                //   validator: (value) {
+                //     if (value!.isEmpty) {
+                //       return "Email address must not be empty";
+                //     } else if (!value.contains('@')) {
+                //       return "Unveiled email address , must contains @ symbol";
+                //     }
+                //     return null;
+                //   },
+                //   labelText: "Email Address",
+                //   prefixIcon: const Icon(Icons.alternate_email),
+                // ),
                 const SizedBox(
                   height: 5,
                 ),
@@ -232,41 +287,18 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 GestureDetector(
                   onTap: () async {
                     if (_formKey.currentState!.validate()) {
-                      await FirebaseAuth.instance
-                          .createUserWithEmailAndPassword(
-                              email: emailController.text,
-                              password: passwordController.text)
-                          .then((value) {
-                        FirebaseAuth.instance.currentUser!
-                            .sendEmailVerification();
-                        Fluttertoast.showToast(
-                            msg: "Data Updated successfully",
-                            toastLength: Toast.LENGTH_SHORT,
-                            gravity: ToastGravity.TOP,
-                            timeInSecForIosWeb: 5,
-                            backgroundColor: Colors.green[200],
-                            textColor: Colors.grey,
-                            fontSize: 16.0);
-                      }).catchError((error) {
-                        Fluttertoast.showToast(
-                            msg: error.toString(),
-                            toastLength: Toast.LENGTH_SHORT,
-                            gravity: ToastGravity.TOP,
-                            timeInSecForIosWeb: 5,
-                            backgroundColor: Colors.red[200],
-                            textColor: Colors.grey,
-                            fontSize: 16.0);
-                        print(error.toString());
-                      });
+                
+
+                      // uploadProfileImage();
+                      setState(() {
                       editUserInfo(
-                        name: nameController.text,
-                        phone: phoneController.text,
-                        email: emailController.text,
-                        age: ageController.text,
-                        gender: genderController.text,
-                        userid: FirebaseAuth.instance.currentUser!.uid,
-                        image: "assets\default-avatar-icon-of-social-media-user-vector.jpg",
-                      );
+                      name: nameController.text, 
+                      phone: phoneController.text , 
+                      age : ageController.text , 
+                      gender: genderController.text);
+
+                      });
+ 
                     }
                   },
                   child: Button(

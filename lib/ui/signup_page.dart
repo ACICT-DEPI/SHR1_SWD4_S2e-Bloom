@@ -77,7 +77,7 @@ class _SignUpState extends State<SignUp> {
                           age: "",
                           gender: "", 
                           userid: FirebaseAuth.instance.currentUser!.uid,
-                          image: "assets\default-avatar-icon-of-social-media-user-vector.jpg",
+                          image: "assets/plants/Id1(1).jpg",
                         );
       Fluttertoast.showToast(
                             msg: "Signed Up successfully",
@@ -298,10 +298,10 @@ class _SignUpState extends State<SignUp> {
                           );
                         }).catchError((error) {
                              Fluttertoast.showToast(
-                            msg: error.toString(),
+                            msg: "Email Adderss already found ",
                             toastLength: Toast.LENGTH_SHORT,
                             gravity: ToastGravity.TOP,
-                            timeInSecForIosWeb: 5,
+                            timeInSecForIosWeb: 10,
                             backgroundColor: Colors.red[200],
                             textColor: Colors.grey,
                             fontSize: 16.0);
@@ -314,7 +314,7 @@ class _SignUpState extends State<SignUp> {
                           age: ageController.text,
                           gender: genderController.text, 
                           userid: FirebaseAuth.instance.currentUser!.uid,
-                          image: "assets\default-avatar-icon-of-social-media-user-vector.jpg",
+                          image: "assets/plants/Id1(1).jpg",
                         );
                       }
                     },

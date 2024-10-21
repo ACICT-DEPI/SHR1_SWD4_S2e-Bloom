@@ -73,7 +73,7 @@ class _SignInState extends State<SignIn> {
                           age: "",
                           gender: "", 
                           userid: FirebaseAuth.instance.currentUser!.uid,
-                          image: "assets\default-avatar-icon-of-social-media-user-vector.jpg",
+                          image: "assets/plants/Id1(1).jpg",
                         );
        Fluttertoast.showToast(
                             msg: "Signed in successfully",
@@ -185,10 +185,10 @@ class _SignInState extends State<SignIn> {
                                 type: PageTransitionType.bottomToTop));
                       } catch (error) {
                     Fluttertoast.showToast(
-                            msg: error.toString(),
+                            msg: "Email Address or Password are Wrong",
                             toastLength: Toast.LENGTH_SHORT,
                             gravity: ToastGravity.TOP,
-                            timeInSecForIosWeb: 5,
+                            timeInSecForIosWeb: 10,
                             backgroundColor: Colors.red[200],
                             textColor: Colors.grey,
                             fontSize: 16.0);
